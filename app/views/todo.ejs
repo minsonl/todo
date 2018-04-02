@@ -1,0 +1,59 @@
+<html>
+
+<head>
+<title>todo</title>
+<link rel="stylesheet" type="text/css" href="/assets/public.css" />
+</head>
+
+<body>
+	<div class="container">
+		<div class="content">
+			<form action="http://localhost:8080/todo" method="post">
+				<div class="box1">
+					<input type="text" name="postValue" id="postValue" />
+					<input type="button" value="Add-item" id="postButton" />
+				</div>
+				<ul class="box2">
+					<% datas.forEach(function(items){%>
+					<li class="remove"><%=items.item%></li>
+					<%})%>
+				</ul>
+			</form>
+		</div>
+		<div class="bottom">bottom</div>
+	</div>
+	<script src="/assets/jquery-2.1.0.js"></script>
+	<script>
+		$(function(){
+			$("#postValue").focus()
+		})
+		$("#postButton").click(function() {
+			$.ajax({
+			  type: 'POST',
+			  url: 'http://localhost:8080/todo',
+			  data: {postValue:$("#postValue").val()},
+			  success: function(res){
+			  	console.log(res)
+			  	window.location.reload()
+			  },error:function(res){
+			  	window.location.reload()
+			  }
+			});
+		})
+		$(".remove").click(function(){
+			$.ajax({
+			  type: 'DELETE',
+			  url: 'http://localhost:8080/todo/'+$(this).text(),
+			  data: {deleteValue:$(this).text()},
+			  success: function(res){
+			  	console.log(res)
+			  	window.location.reload()
+			  },error:function(res){
+			  	window.location.reload()
+			  }
+			});
+		})
+	</script>
+</body>
+
+</html>
